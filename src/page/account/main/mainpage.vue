@@ -15,35 +15,35 @@
         <!--tips panel--->
         <div class="top-tips">
             <div class="tip-time">
-                <div class="fitem">2019</div>
-                <div class="sitem">12
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="15" height="15" viewBox="0 0 512 512">
-                        <path d="M373.76 153.625l-235.52-0.025 117.76 204.8z" fill="#000000" />
-                    </svg>
+                <div class="fitem">{{year}}</div>
+                <div class="sitem">
+                    <span>{{month}}</span>
+                    <el-date-picker format="yyyy-MM" value-format="yyyy-MM" size="mini" v-model="form.time" type="month"> </el-date-picker>
                 </div>
                 <div class="tseparate"></div>
             </div>
             <div class="tip-income">
                 <div class="fitem">支出</div>
-                <div class="sitem">312513.39</div>
+                <div class="sitem">{{monthSumMap.out}}</div>
             </div>
             <div class="tip-outcome">
                 <div class="fitem">收入</div>
-                <div class="sitem">817263.13</div>
+                <div class="sitem">{{monthSumMap.in}}</div>
             </div>
         </div>
+        
         <!--content panel-->
         <div class="center">
-            <div class="center-content">
+            <div class="center-content" v-for='(item,index) in dayOfmonthList' :key="index">
                 <div class="c-top">
-                    <div class="c-time">12月30号 Sunday</div>
+                    <div class="c-time">{{item.TIME}}</div>
                     <div class="c-money">
-                        收入:99
-                        支出:102
+                        收入:{{sumMap[item.TIME+'_day_sum'][0]}}
+                        支出:{{sumMap[item.TIME+'_day_sum'][1]}}
                     </div>
                 </div>
                 <div class="c-line"></div>
-                <div class="c-cycle-item">
+                <div class="c-cycle-item" v-for='(tItem,tIndex) in timeMap[item.TIME]' :key="tIndex">
                     <div class="c-item">
                         <div class="item-ban">
                             <svg class="ban-svg" width="24" height="20" viewBox="0 0 32 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
@@ -54,45 +54,11 @@
                                 </g>
                             </svg>
                         </div>
-                        <div class="item-content">月~埃及学习潜水的时候付款的美元，汇率1：6.94</div>
+                        <div class="item-content">{{tItem.mark}}</div>
                         <div class="item-empty"></div>
-                        <div class="item-money">-14元</div>
+                        <div class="item-money">{{tItem.type==0?'':'-'}}{{tItem.money}}</div>
                     </div>
-                    <div class="item-line"></div>
-                </div>
-                <div class="c-cycle-item">
-                    <div class="c-item">
-                        <div class="item-ban">
-                                <svg class="ban-svg" width="24" height="20" viewBox="0 0 32 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-                                        <g id="Icon-Set" sketch:type="MSLayerGroup" transform="translate(-464.000000, -414.000000)" fill="#000000">
-                                            <path d="M466,434 C466,426.268 472.268,420 480,420 C487.732,420 494,426.268 494,434 L466,434 L466,434 Z M481,418 L481,416 L483,416 C483.553,416 484,415.553 484,415 C484,414.448 483.553,414 483,414 L477,414 C476.447,414 476,414.448 476,415 C476,415.553 476.447,416 477,416 L479,416 C479,416 478.993,418.082 479,418 C470.632,418.519 464,425.501 464,434 L464,435 C464,435.553 464.447,436 465,436 L495,436 C495.553,436 496,435.553 496,435 L496,434 C496,425.501 489.368,418.519 481,418 L481,418 Z M495,438 L465,438 C464.447,438 464,438.448 464,439 C464,439.553 464.447,440 465,440 L495,440 C495.553,440 496,439.553 496,439 C496,438.448 495.553,438 495,438 L495,438 Z" id="dinner" sketch:type="MSShapeGroup"></path>
-                                        </g>
-                                    </g>
-                                </svg>
-                        </div>
-                        <div class="item-content">月~埃及学习潜水的时候付款的美元，汇率1：6.94</div>
-                        <div class="item-empty"></div>
-                        <div class="item-money">-14元</div>
-                    </div>
-                    <div class="item-line"></div>
-                </div>
-                <div class="c-cycle-item">
-                    <div class="c-item">
-                        <div class="item-ban">
-                                <svg class="ban-svg" width="24" height="20" viewBox="0 0 32 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-                                        <g id="Icon-Set" sketch:type="MSLayerGroup" transform="translate(-464.000000, -414.000000)" fill="#000000">
-                                            <path d="M466,434 C466,426.268 472.268,420 480,420 C487.732,420 494,426.268 494,434 L466,434 L466,434 Z M481,418 L481,416 L483,416 C483.553,416 484,415.553 484,415 C484,414.448 483.553,414 483,414 L477,414 C476.447,414 476,414.448 476,415 C476,415.553 476.447,416 477,416 L479,416 C479,416 478.993,418.082 479,418 C470.632,418.519 464,425.501 464,434 L464,435 C464,435.553 464.447,436 465,436 L495,436 C495.553,436 496,435.553 496,435 L496,434 C496,425.501 489.368,418.519 481,418 L481,418 Z M495,438 L465,438 C464.447,438 464,438.448 464,439 C464,439.553 464.447,440 465,440 L495,440 C495.553,440 496,439.553 496,439 C496,438.448 495.553,438 495,438 L495,438 Z" id="dinner" sketch:type="MSShapeGroup"></path>
-                                        </g>
-                                    </g>
-                                </svg>
-                        </div>
-                        <div class="item-content">月~埃及学习潜水的时候付款的美元，汇率1：6.94</div>
-                        <div class="item-empty"></div>
-                        <div class="item-money">-14元</div>
-                    </div>
-                    <!-- <div class="item-line"></div> -->
+                    <div class="item-line" v-if="(tIndex+1)!=timeMap[item.TIME].length"></div>
                 </div>
             </div>
 
@@ -104,17 +70,38 @@
 <script>
 import {accountApi} from "@/service/account-api";
 export default {
+    name: 'mainpage',
     data() {
         return {
             collapse:false,
-            form:{},
-            page:{
-            	pageSize:5,
-            	currPage:1,
-            	totalPage:0
+            form:{
+                time:''
             },
+            year:new Date().getFullYear(),
+            month:new Date().getMonth()+1,
+            searchTime:'',
             tableData: [],
+            timeMap:{},
+            sumMap:{},
+            dayOfmonthList:{},
+            monthSumMap:{}
         }
+    },
+    watch:{//监听参数
+        "form.time":function(){
+            if(this.form.time!=''){
+                this.year = this.form.time.substring(0,4);
+                this.month = this.form.time.substring(5,7);
+                this.searchTime = this.form.time;
+                this.queryList();
+                this.form.time = '';
+            }
+        }
+    },
+    mounted() {
+        this.queryList();
+        let date = new Date();
+        this.searchTime = date.getFullYear() + '-' + date.getMonth();
     },
     computed:{
         onRoutes(){
@@ -122,25 +109,20 @@ export default {
         }
     },
     created(){
-        // 通过 Event Bus 进行组件间通信，来折叠侧边栏,监听
-        // bus.$on('collapse', msg => {
-        //     this.collapse = msg;
-        // })
     },
     methods:{
         //查询list数据
         queryList() {
-            // let param = Object.assign({}, this.form);
-            let param = Object.assign({}, this.form);
-	        param.size = this.page.pageSize;
-	        param.page = this.page.currPage;
+            let param = {
+                searchTime:this.searchTime
+            };
 	        
-	        accountApi.list(param).then((res)=>{
+	        accountApi.getListByTime(param).then((res)=>{
                 if(res.code == "0"){
-                  this.tableData = res.data.list;
-                  
-                  //this.page.pageSize = res.data.pageSize;
-                  //this.page.totalCount = res.data.total;
+                    this.timeMap = res.data.timeMap;
+                    this.sumMap = res.data.sumMap;
+                    this.dayOfmonthList = res.data.dayOfmonthList;
+                    this.monthSumMap = res.data.monthSumMap;
                 }else{
                   this.$message({showClose:true,message:'程序出现异常，请联系管理员处理'});
                 }
@@ -153,7 +135,7 @@ export default {
 <style lang="scss" scoped>
 /***top相关css*****/  
 .top{
-    background-color: #c4eafc;
+    background-color: rgb(117, 194, 238);
     position: absolute;
     top: 0;
     left: 0;
@@ -179,7 +161,7 @@ export default {
 }
 /***top tips相关css*****/  
 .top-tips{
-    background-color: #c4eafc;
+    background-color: rgb(117, 194, 238);
     position: absolute;
     top:5%;
     left: 0;
@@ -214,7 +196,6 @@ export default {
     font-size: 0.8rem;
 }
 .sitem{
-    margin-top: 0.4rem;
     font-weight: bold;
 }
 /***center-conten相关css*****/  
@@ -225,12 +206,15 @@ export default {
     top: 12%;
     bottom: 8%;
     overflow: auto;
+    .center-content{
+        position: relative;
+    }
     .c-top{
         padding: 0.4rem;
         font-size: 0.8rem;
         .c-money{
             position: absolute;
-            right: 0;
+            right: 0.5rem;
             top: 0;
             padding: 0.4rem;
         }
@@ -265,11 +249,31 @@ export default {
         }
         .item-money{
             flex: 1;
+            display: inline-block;
+            text-align: right;
+            margin-right: 0.5rem;
         }
     }
     .item-line{
         border-top: 1px solid grey;
         margin-left: 14%;
     }  
+}
+
+.tip-time /deep/ .el-input__inner{
+    width:30px;
+    padding-left:0px;
+    padding-right:0px;
+    border:1px solid rgb(117, 194, 238);
+    background-color: rgb(117, 194, 238);
+}
+.tip-time /deep/ .el-input__icon{
+    width:1px;
+}
+.tip-time /deep/ .el-date-editor.el-input{
+    width:20px;
+}
+.tip-time /deep/ .el-input__prefix{
+    color: black;
 }
 </style>

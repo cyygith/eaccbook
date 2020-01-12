@@ -10,11 +10,19 @@ let router = new Router({
       redirect: '/home'
     },
     {
+      path: '/chooseCatalog',
+      component: resolve => require(['../page/account/addbook/chooseCatalog.vue'], resolve),
+    },
+    {
       path: '/home',
       component: resolve => require(['../components/common/Home.vue'], resolve),
       meta: { title: '首界面' },
       children: [ // 二级路由。对应App.vue
-        
+        {
+          path: '',
+          component: resolve => require(['../page/account/main/mainpage.vue'], resolve),
+          meta: { title: '主页' }
+        },
       ]
     },
   ]
