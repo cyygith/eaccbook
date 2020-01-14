@@ -69,60 +69,61 @@
 </template> 
 
 <script>
-    import vNum from '../addbook/num';
-    export default {
-        data() {
-            return {
-                checkRow:{
-                    type:'1',
-                    catalog:'',
-                },
-                collapse:false,
-                numShow:false,
-                inComeShow:false
-            }
-        },
-        components:{
-            vNum
-        },
-        computed:{
-            onRoutes(){
-                return this.$route.path.replace('/','');
-            }
-        },
-        created(){
-
-        },
-        methods:{
-            //退出登录
-            logout(){
-                this.$router.push('/login');
+import vNum from '../addbook/num';
+export default {
+    name:'chooseCatalog',
+    data() {
+        return {
+            checkRow:{
+                type:'1',
+                catalog:'',
             },
-            //关闭子窗口
-            closechild(){
-                this.numShow = false;
-            },
-            //显示数字框框
-            shownum(catalog){
-                this.checkRow.catalog = catalog;
-                this.numShow = true;
-            },
-            //返回首页
-            back(){
-                this.$router.push('/home');
-            },
-            //切换成收入类型
-            changeToIncome(){
-                this.inComeShow = !this.inComeShow;
-                if(this.inComeShow == true){
-                    this.checkRow.type="0";
-                }else{
-                    this.checkRow.type="1";
-                }
-            }
-
+            collapse:false,
+            numShow:false,
+            inComeShow:false
         }
+    },
+    components:{
+        vNum
+    },
+    computed:{
+        onRoutes(){
+            return this.$route.path.replace('/','');
+        }
+    },
+    created(){
+
+    },
+    methods:{
+        //退出登录
+        logout(){
+            this.$router.push('/login');
+        },
+        //关闭子窗口
+        closechild(){
+            this.numShow = false;
+        },
+        //显示数字框框
+        shownum(catalog){
+            this.checkRow.catalog = catalog;
+            this.numShow = true;
+        },
+        //返回首页
+        back(){
+            this.$router.push('/home');
+        },
+        //切换成收入类型
+        changeToIncome(){
+            this.inComeShow = !this.inComeShow;
+            if(this.inComeShow == true){
+                this.checkRow.type="0";
+            }else{
+                this.checkRow.type="1";
+            }
+        }
+
     }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -84,35 +84,56 @@
 </script>
 
 <style lang="scss" scoped>
-.detail-top{
-    background-color: #ecfa6b;   
-    height: 15%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    .d-t-div{
+body{
+    margin: 0;
+    padding: 0;
+    background-color: rgb(243, 239, 239);
+}
+.me-panel{
+   
+    background-color: rgb(243, 239, 239);
+}
+.top-div{
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: white;
+    .top-content{
+        display: flex;
         position: relative;
-        text-align: center;
-        padding-top: 5%;
+        .d-top{
+            padding: 1rem;
+            border-radius: 1rem;
+            border: 1px solid blue;
+        }
+        .d-div{
+            margin-left: 1rem;
+            .d-d-name{
+                margin-bottom: 0.5rem;
+            }
+        }
+        .d-icon{
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
     }
 }
-.detail-content{
-    position: absolute;
-    height: 85%;
-    top: 15%;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    .type-name{
-        padding: 1rem 0 0 1rem;
-        .t-div{
-            margin-right: 1rem;
-            line-height: 1.5rem;
+.summary-div{
+    padding: 0 0.5rem 0 0.5rem;
+    
+    .summary-content{
+        border: 1rem;
+        margin-top: 1rem;
+        padding: 0.5rem 0 0.5rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        background-color: white;
+        .s-item{
+            text-align: center;
         }
-        .item-line{
-            border-top: 1px solid grey;
-            margin-top: 1rem;
+        .f-item{
+            text-align: center;
         }
     }
 }
