@@ -53,8 +53,17 @@ module.exports = {
         include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
       {
+        test: /\.svg$/,
+        loader: 'svg-sprite-loader',
+        include: [resolve('static/svgs')], // include => 只处理指定的文件夹下的文件
+        options: {
+            symbolId: 'icon-[name]'
+        }
+      },
+      {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
+        exclude: [resolve('static/svgs')], // exclude => 不处理指定的文件夹下的文件
         options: {
           limit: 10000,
           name: utils.assetsPath('img/[name].[hash:7].[ext]')

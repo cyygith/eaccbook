@@ -14,6 +14,14 @@ let router = new Router({
       component: resolve => require(['../page/account/addbook/chooseCatalog.vue'], resolve),
     },
     {
+      path: '/login',
+      component: resolve => require(['../page/account/login/login.vue'], resolve),
+    },
+    {
+      path: '/register',
+      component: resolve => require(['../page/account/login/register.vue'], resolve),
+    },
+    {
       path: '/home',
       component: resolve => require(['../components/common/Home.vue'], resolve),
       meta: { title: '首界面' },
@@ -22,6 +30,11 @@ let router = new Router({
           path: '',
           component: resolve => require(['../page/account/main/mainpage.vue'], resolve),
           meta: { title: '主页' }
+        },
+        {
+          path: '/me',
+          component: resolve => require(['../page/account/me/me.vue'], resolve),
+          meta: { title: '我的' }
         },
       ]
     },

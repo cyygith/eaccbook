@@ -10,19 +10,16 @@
                         <svg role="img"  xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" aria-labelledby="cancelIconTitle" stroke="grey" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="green"> <title id="cancelIconTitle">Cancel</title> <path d="M15.5355339 15.5355339L8.46446609 8.46446609M15.5355339 8.46446609L8.46446609 15.5355339"/> <path d="M4.92893219,19.0710678 C1.02368927,15.1658249 1.02368927,8.83417511 4.92893219,4.92893219 C8.83417511,1.02368927 15.1658249,1.02368927 19.0710678,4.92893219 C22.9763107,8.83417511 22.9763107,15.1658249 19.0710678,19.0710678 C15.1658249,22.9763107 8.83417511,22.9763107 4.92893219,19.0710678 Z"/> </svg>
                     </span>
                 </div>
-              
                 <div class="item-content">
                     <el-form-item label="密码" prop="passwd">
                         <el-input v-model="form.password" placeholder="请输入密码" show-password></el-input>
                     </el-form-item>
-                    <span class="i-icon" v-if="!eyeShow" @click="showEye">
-                        <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-labelledby="eyeClosedIconTitle" stroke="green" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="grey"> <title id="eyeClosedIconTitle">Hidden (closed eye)</title> <path d="M20 9C20 9 19.6797 9.66735 19 10.5144M12 14C10.392 14 9.04786 13.5878 7.94861 13M12 14C13.608 14 14.9521 13.5878 16.0514 13M12 14V17.5M4 9C4 9 4.35367 9.73682 5.10628 10.6448M7.94861 13L5 16M7.94861 13C6.6892 12.3266 5.75124 11.4228 5.10628 10.6448M16.0514 13L18.5 16M16.0514 13C17.3818 12.2887 18.3535 11.3202 19 10.5144M5.10628 10.6448L2 12M19 10.5144L22 12"/> </svg>
-                    </span>
-                    <span class="i-icon" v-if="eyeShow" @click="showEye">
-                        <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-labelledby="eyeIconTitle" stroke="#2329D6" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#2329D6"> <title id="eyeIconTitle">Visible (eye)</title> <path d="M22 12C22 12 19 18 12 18C5 18 2 12 2 12C2 12 5 6 12 6C19 6 22 12 22 12Z"/> <circle cx="12" cy="12" r="3"/> </svg>
-                    </span>
                 </div>
-                
+                <div class="item-content">
+                    <el-form-item label="邮箱" prop="email">
+                        <el-input v-model="form.email" placeholder="请输入邮箱"></el-input>
+                    </el-form-item>
+                </div>
             </div>
             <div class="l-button">
                 <div class="c-button" @click="register">注册</div>
@@ -39,12 +36,14 @@ export default {
             form:{
                 username: '',
                 password: '',
+                email:'',
                 rememberMe:false
             },
             collapse:false,
             rules:{
-                username:[{required:true,message:'请输入电话号码',trigger:blur}],
-                password:[{required:true,message:'请输入密码',trigger:blur}]
+                username:[{required:true,message:'请输入电话号码',trigger:'blur'}],
+                password:[{required:true,message:'请输入密码',trigger:'blur'}],
+                password:[{required:true,message:'请输入邮箱',trigger:'blur'},{type:email,message:'请输入正确的邮箱地址',trigger:['blur','change']}]
             },
             collapse:false
         }
@@ -65,11 +64,31 @@ export default {
         logout(){
             this.$router.push('/login');
         },
-        // 侧边栏折叠
-        collapseChage(){
-            this.collapse = !this.collapse;
-            bus.$emit('collapse', this.collapse);
-        },
+        //注册页面
+        register(){
+            this.$refs['form'].validate((valid) => {
+                if (valid) {
+                    let param = this.form;
+                    let loading = this.$loading({lock:true,text:'保存中....',background:'rgba(0,0,0,0.5)'});
+                    commonApi.register(param).then((res)=>{
+                        try{
+                            if(res.code == "0"){
+                                this.$router.push('/login');
+                            }else{
+                                this.$message({message:res.msg,type:'error'})
+                            }
+                        }catch(err){
+                            console.dir(err);
+                            this.$alert('程序出现异常，请联系管理员处理','提示信息');
+                        }
+                        loading.close();
+                    });
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            }); 
+        }
     }
 }
 </script>
