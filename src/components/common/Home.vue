@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
         <transition name="move" mode="out-in">
-            <keep-alive :include="/mainpage/">
+            <keep-alive :include="tagsList">
                 <router-view></router-view>
             </keep-alive>
         </transition>

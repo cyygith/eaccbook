@@ -43,9 +43,9 @@
         </div>
         <div class="detail-footer">
             <div class="foot-container">
-                <div class="f-edit" @click="toEdit">编辑</div>
+                <div class="f-edit" @click="edit">编辑</div>
                 <div class="f-line"></div>
-                <div class="f-del" @click="toDel">删除</div> 
+                <div class="f-del" @click="del">删除</div> 
             </div>
         </div>
     </div>
@@ -75,6 +75,7 @@ export default {
     },
     mounted(){
         this.detail();
+        this.id = this.$route.query.id;
     },
     methods:{
         // 退出登录
@@ -96,23 +97,60 @@ export default {
         // 获取详情
         detail(){
             let idd = this.$route.query.id;
-            console.log("idddd:"+idd);
             let param = new URLSearchParams();
             param.append("id",idd);
             let loading = this.$loading({lock:true,text:'保存中....',background:'rgba(0,0,0,0.5)'});
             accountApi.detail(param).then((res)=>{
                 if(res.code == "0"){
-                    this.form = res.data;
-                    if(res.data.type=='0'){
-                        this.form.typeName = '收入';
-                    }else{
-                        this.form.typeName = '支出';
+                    if(res.data){
+                        this.form = res.data;
+                        if(res.data.type=='0'){
+                            this.form.typeName = '收入';
+                        }else{
+                            this.form.typeName = '支出';
+                        }
                     }
                 }else{
                     this.$alert('获取信息失败，联系管理员','提示信息');
                 }
                 loading.close();
             });	
+        },
+        //编辑
+        edit(){
+            this.$router.push('chooseCatalog');
+        },
+        //删除
+        del() {
+            this.$confirm('确定删除该记录?', '提示', {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'}).then(() => {
+                let param = new URLSearchParams();
+                param.append("id",this.id);
+                console.log("delete now....");
+                accountApi.delete(param).then(res => {
+                    console.log('log...');
+                    console.log(res);
+                    if (res.code == "0") {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!',
+                            duration: 2000
+                        });
+                        this.$router.back(-1);
+                    }else{
+                        this.$message({
+                            type: 'error',
+                            message: '删除失败，联系管理员',
+                            duration: 2000
+                        });
+                    }
+                });
+            }).catch((e) => {
+                console.log(e);
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });          
+            });   
         }
     }
 }

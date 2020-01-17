@@ -1,8 +1,21 @@
 <template>
   <div id="app">
-      <router-view></router-view>
+      <keep-alive :include="tagsList">
+          <router-view></router-view>
+      </keep-alive>
   </div>
 </template>
+<script>
+export default {
+  name: 'app',
+  data(){
+      return {
+          tagsList: ['mainpage'],
+          collapse: false
+      }
+  },
+}
+</script>
 
 <style>
     @import "./assets/css/main.css";

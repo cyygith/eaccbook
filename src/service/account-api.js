@@ -22,7 +22,7 @@ const accountApi = {
     return axios.post(`${baseUrl}/accBook/update`, params)
   },
   // 保存或更新
-  saveOrUpdate(params){
+  saveOrUpdate (params) {
     return axios.post(`${baseUrl}/accBook/saveOrUpdate`, params)
   },
   // 详情
@@ -32,6 +32,10 @@ const accountApi = {
   // 根据月份获取详细数据
   getListByTime (params) {
     return axios.post(`${baseUrl}/accBook/getListByTime`, params)
+  },
+  // 详情
+  delete (params) {
+    return axios.post(`${baseUrl}/accBook/delete`, params)
   }
 }
 

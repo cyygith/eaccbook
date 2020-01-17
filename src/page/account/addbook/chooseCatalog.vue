@@ -86,10 +86,8 @@ export default {
     components:{
         vNum
     },
-    computed:{
-        onRoutes(){
-            return this.$route.path.replace('/','');
-        }
+    mounted():{
+        
     },
     created(){
 
