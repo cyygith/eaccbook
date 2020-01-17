@@ -47,7 +47,7 @@
     right: 0;
     bottom: 0;
     height: 10%;
-    background-color: yellow;
+    background-color: rgb(117, 194, 238);
     display: flex;
     justify-content: space-around;
     align-items: center;

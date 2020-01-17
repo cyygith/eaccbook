@@ -44,7 +44,7 @@
                 </div>
                 <div class="c-line"></div>
                 <div class="c-cycle-item" v-for='(tItem,tIndex) in timeMap[item.TIME]' :key="tIndex">
-                    <div class="c-item">
+                    <div class="c-item" @click="detail(tItem)">
                         <div class="item-ban">
                             <svg class="ban-svg" width="24" height="20" viewBox="0 0 32 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
                                 <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
@@ -111,12 +111,18 @@ export default {
     created(){
     },
     methods:{
+        //详情
+        detail(item){
+            console.log(item);
+            console.log(item.id);
+            this.$router.push({path:'/detail',query:{id:item.id}});
+        },
         //查询list数据
         queryList() {
             let param = {
                 searchTime:this.searchTime
             };
-	        
+	        let loading = this.$loading({lock:true,text:'保存中....',background:'rgba(0,0,0,0.5)'});
 	        accountApi.getListByTime(param).then((res)=>{
                 if(res.code == "0"){
                     this.timeMap = res.data.timeMap;
@@ -126,6 +132,7 @@ export default {
                 }else{
                   this.$message({showClose:true,message:'程序出现异常，请联系管理员处理'});
                 }
+                loading.close();
 	        });
 	    },
     }

@@ -76,7 +76,7 @@ export default {
         return {
             checkRow:{
                 type:'1',
-                catalog:'',
+                category:'',
             },
             collapse:false,
             numShow:false,
@@ -104,8 +104,8 @@ export default {
             this.numShow = false;
         },
         //显示数字框框
-        shownum(catalog){
-            this.checkRow.catalog = catalog;
+        shownum(category){
+            this.checkRow.category = category;
             this.numShow = true;
         },
         //返回首页
@@ -134,12 +134,16 @@ export default {
     left: 0;
     right: 0;
     height: 15%;
+    .c-back{
+        position: absolute;
+        left: 1rem;
+        top:30%;
+        z-index: 99;
+    }
     .top-content{
+        padding-top: 2rem;
         position: relative;
         text-align: center;
-        .c-back{
-            margin: 1rem 0 0 1rem;
-        }
         .c-outcome{
             padding: 1rem;
         }

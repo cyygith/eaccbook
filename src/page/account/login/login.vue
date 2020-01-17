@@ -79,7 +79,7 @@ export default {
                 if (valid) {
                     let param = this.form;
                     let loading = this.$loading({lock:true,text:'保存中....',background:'rgba(0,0,0,0.5)'});
-                    commonApi.register(param).then((res)=>{
+                    commonApi.login(param).then((res)=>{
                         try{
                             if(res.code == "0"){
                                 sessionStorage.setItem('access-token',res.data.token);

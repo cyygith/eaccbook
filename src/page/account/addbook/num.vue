@@ -74,8 +74,9 @@ export default {
         this.form.time = dateTime.getFormatTime('yyyy-MM-dd');
         this.form.id = this.checkrow.id;
         this.form.type = this.checkrow.type;
-        this.form.catalog = this.checkrow.catalog;
+        this.form.category = this.checkrow.category;
         this.queryById();
+
     },
     props:{
         checkrow:{
@@ -136,6 +137,7 @@ export default {
         },
         //查询数据
         queryById(){
+            console.log(this.form);
             this.form.id = this.checkrow.id;
             if(this.form.id){
                 console.log("q123");

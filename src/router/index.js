@@ -14,6 +14,10 @@ let router = new Router({
       component: resolve => require(['../page/account/addbook/chooseCatalog.vue'], resolve),
     },
     {
+      path: '/detail',
+      component: resolve => require(['../page/account/addbook/detail.vue'], resolve),
+    },
+    {
       path: '/login',
       component: resolve => require(['../page/account/login/login.vue'], resolve),
     },
@@ -28,6 +32,7 @@ let router = new Router({
       children: [ // 二级路由。对应App.vue
         {
           path: '',
+          name:'mainpage',
           component: resolve => require(['../page/account/main/mainpage.vue'], resolve),
           meta: { title: '主页' }
         },
