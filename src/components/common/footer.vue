@@ -2,7 +2,7 @@
     <div class="footer">
         <div class="f-content">   
             <div class="f-item">
-                <svg height="24" viewBox="0 0 28 28" width="24" xmlns="http://www.w3.org/2000/svg">
+                <svg @click="detail" height="24" viewBox="0 0 28 28" width="24" xmlns="http://www.w3.org/2000/svg">
                     <g data-name="2" id="_2" >
                         <path  d="M28,25V10a1,1,0,0,0-1-1H23a1,1,0,0,0-1,1V25H20V6a1,1,0,0,0-1-1H15a1,1,0,0,0-1,1V25H12V15a1,1,0,0,0-1-1H7a1,1,0,0,0-1,1V25H4V5H2V26a1,1,0,0,0,1,1H30V25ZM24,11h2V25H24ZM16,7h2V25H16ZM8,16h2v9H8Z" id="bar_chart_graph_analysis"/>
                     </g>
@@ -69,13 +69,17 @@
                 this.collapse = !this.collapse;
                 bus.$emit('collapse', this.collapse);
             },
+            //明细
+            detail(){
+                this.$router.push('home');
+            },
             //记账
             addbook(){
-                this.$router.push('/chooseCatalog');
+                this.$router.push('chooseCatalog');
             },
             //我的
             me(){
-                this.$router.push('/me');
+                this.$router.push('me');
             }
         }
     }
