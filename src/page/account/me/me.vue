@@ -19,11 +19,11 @@
                     <div>连续打卡</div>
                 </div>
                 <div class="s-item">
-                    <div>532</div>
+                    <div>{{sum.SUMDAY}}</div>
                     <div>总记账天数</div>
                 </div>
                 <div class="s-item">
-                    <div>653</div>
+                    <div>{{sum.SUMCOUNT}}</div>
                     <div>记账总笔数</div>
                 </div>
             </div>
@@ -52,45 +52,54 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                collapse:false
-            }
+import {accountApi} from "@/service/account-api";
+export default {
+    name:'me',
+    data() {
+        return {
+            collapse:false,
+            sum:{}
+        }
+    },
+    computed:{
+        onRoutes(){
+            return this.$route.path.replace('/','');
+        }
+    },
+    mounted(){
+        this.querySummary();
+    },
+    methods:{
+        //退出登录
+        login(){
+            this.$router.push('/login');
         },
-        computed:{
-            onRoutes(){
-                return this.$route.path.replace('/','');
-            }
+        // 侧边栏折叠
+        collapseChage(){
+            this.collapse = !this.collapse;
+            bus.$emit('collapse', this.collapse);
         },
-        created(){
-            // 通过 Event Bus 进行组件间通信，来折叠侧边栏,监听
-            // bus.$on('collapse', msg => {
-            //     this.collapse = msg;
-            // })
-        },
-        methods:{
-            //退出登录
-            login(){
-                this.$router.push('/login');
-            },
-            // 侧边栏折叠
-            collapseChage(){
-                this.collapse = !this.collapse;
-                bus.$emit('collapse', this.collapse);
-            },
+        //获取统计数据
+        querySummary(){
+            let param = {};
+            accountApi.getAllSummary(param).then((res)=>{
+                if(res.code == "0"){
+                    this.sum = res.data;
+                }else{
+                    this.$alert('获取信息失败，请联系管理员处理','提示信息');
+                }
+            });
         }
     }
+}
 </script>
-
 <style lang="scss" scoped>
 body{
     margin: 0;
     padding: 0;
     background-color: rgb(243, 239, 239);
 }
-.me-panel{
-   
+.me-panel{ 
     background-color: rgb(243, 239, 239);
 }
 .top-div{
@@ -120,7 +129,6 @@ body{
 }
 .summary-div{
     padding: 0 0.5rem 0 0.5rem;
-    
     .summary-content{
         border: 1rem;
         margin-top: 1rem;

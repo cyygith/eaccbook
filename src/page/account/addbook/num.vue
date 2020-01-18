@@ -94,7 +94,7 @@ export default {
     watch:{
         "form.time":function(){
             this.showTime=true;
-        }
+        },
     },
     methods:{
         //退出登录

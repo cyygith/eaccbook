@@ -36,6 +36,10 @@ const accountApi = {
   // 详情
   delete (params) {
     return axios.post(`${baseUrl}/accBook/delete`, params)
+  },
+  // 获取统计数据
+  getAllSummary (params) {
+    return axios.post(`${baseUrl}/accBook/getAllSummary`, params)
   }
 }
 

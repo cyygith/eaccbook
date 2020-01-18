@@ -86,7 +86,7 @@ export default {
     components:{
         vNum
     },
-    mounted():{
+    mounted(){
         
     },
     created(){

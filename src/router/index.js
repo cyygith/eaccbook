@@ -32,12 +32,13 @@ let router = new Router({
       children: [ // 二级路由。对应App.vue
         {
           path: '',
-          name:'mainpage',
+          name: 'mainpage',
           component: resolve => require(['../page/account/main/mainpage.vue'], resolve),
           meta: { title: '主页' }
         },
         {
           path: '/me',
+          name: 'me',
           component: resolve => require(['../page/account/me/me.vue'], resolve),
           meta: { title: '我的' }
         },

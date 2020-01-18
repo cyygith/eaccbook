@@ -16,7 +16,7 @@
         name: 'home',
         data(){
             return {
-                tagsList: ['mainpage'],
+                tagsList: ['mainpage','me'],
                 collapse: false
             }
         },
