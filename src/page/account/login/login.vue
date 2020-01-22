@@ -90,7 +90,6 @@ export default {
                                 this.$message({message:res.msg,type:'error'})
                             }
                         }catch(err){
-                            console.dir(err);
                             this.$alert('程序出现异常，请联系管理员处理','提示信息');
                         }
                         loading.close();

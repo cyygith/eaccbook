@@ -34,6 +34,7 @@
         
         <!--content panel-->
         <div class="center">
+            <div class="center-tips" v-if="showLoginTips" @click="login">为避免数据丢失，建议登录哟~~</div>
             <div class="center-content" v-for='(item,index) in dayOfmonthList' :key="index">
                 <div class="c-top">
                     <div class="c-time">{{item.TIME}}</div>
@@ -84,7 +85,8 @@ export default {
             timeMap:{},
             sumMap:{},
             dayOfmonthList:{},
-            monthSumMap:{}
+            monthSumMap:{},
+            showLoginTips:false
         }
     },
     watch:{//监听参数
@@ -111,16 +113,24 @@ export default {
     created(){
     },
     methods:{
+        //登录
+        login(){
+            this.$router.push('/login');
+        },
         //详情
         detail(item){
-            console.log(item);
-            console.log(item.id);
             this.$router.push({path:'/detail',query:{id:item.id}});
         },
         //查询list数据
         queryList() {
+            let user = JSON.parse(sessionStorage.getItem('user'));
+            let userId = user?user.userId:0;
+            if(!user){
+                this.showLoginTips = true;
+            }
             let param = {
-                searchTime:this.searchTime
+                searchTime : this.searchTime,
+                userId : userId
             };
 	        let loading = this.$loading({lock:true,text:'保存中....',background:'rgba(0,0,0,0.5)'});
 	        accountApi.getListByTime(param).then((res)=>{
@@ -215,6 +225,9 @@ export default {
     overflow: auto;
     .center-content{
         position: relative;
+    }
+    .center-tips{
+        background-color: rgba(255, 166, 0, 0.527);
     }
     .c-top{
         padding: 0.4rem;

@@ -70,7 +70,7 @@ export default {
         this.querySummary();
     },
     methods:{
-        //退出登录
+        //登录
         login(){
             this.$router.push('/login');
         },
@@ -81,7 +81,11 @@ export default {
         },
         //获取统计数据
         querySummary(){
-            let param = {};
+            let user = JSON.parse(sessionStorage.getItem('user'));
+            let userId = user?user.userId:0;
+            let param = {
+                userId:userId
+            };
             accountApi.getAllSummary(param).then((res)=>{
                 if(res.code == "0"){
                     this.sum = res.data;

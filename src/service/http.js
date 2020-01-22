@@ -81,7 +81,7 @@ instance.interceptors.request.use(
  */
 instance.interceptors.response.use(
   res => {
-    console.dir(res);
+    // console.dir(res);
     if (res.status === 200) {
       return Promise.resolve(res.data)
     } else {

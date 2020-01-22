@@ -11,7 +11,7 @@
                     </span>
                 </div>
                 <div class="item-content">
-                    <el-form-item label="密码" prop="passwd">
+                    <el-form-item label="密码" prop="password">
                         <el-input v-model="form.password" placeholder="请输入密码" show-password></el-input>
                     </el-form-item>
                 </div>
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import {commonApi} from "@/service/sys-api";
 export default {
     name:'register',
     data() {
@@ -37,13 +38,15 @@ export default {
                 username: '',
                 password: '',
                 email:'',
+                status:1,
+                mobile:'',
                 rememberMe:false
             },
             collapse:false,
             rules:{
                 username:[{required:true,message:'请输入电话号码',trigger:'blur'}],
                 password:[{required:true,message:'请输入密码',trigger:'blur'}],
-                password:[{required:true,message:'请输入邮箱',trigger:'blur'},{type:email,message:'请输入正确的邮箱地址',trigger:['blur','change']}]
+                email:[{required:true,message:'请输入邮箱',trigger:'blur'},{ type: 'email', message: '请输入正确的邮箱地址', trigger: ['change'] }]
             },
             collapse:false
         }
@@ -64,21 +67,27 @@ export default {
         logout(){
             this.$router.push('/login');
         },
+        //清除
+        reset(){
+            this.form.username = '';
+        },
         //注册页面
         register(){
             this.$refs['form'].validate((valid) => {
                 if (valid) {
+                    this.form.mobile = this.form.username;
                     let param = this.form;
                     let loading = this.$loading({lock:true,text:'保存中....',background:'rgba(0,0,0,0.5)'});
                     commonApi.register(param).then((res)=>{
                         try{
                             if(res.code == "0"){
-                                this.$router.push('/login');
+                                this.$confirm('注册成功，是否跳转到登录页面', '提示', {confirmButtonText: '确定',cancelButtonText: '取消',type: 'success'}).then(() => {
+                                    this.$router.push('/login');
+                                }).catch((e) => {}); 
                             }else{
                                 this.$message({message:res.msg,type:'error'})
                             }
                         }catch(err){
-                            console.dir(err);
                             this.$alert('程序出现异常，请联系管理员处理','提示信息');
                         }
                         loading.close();
