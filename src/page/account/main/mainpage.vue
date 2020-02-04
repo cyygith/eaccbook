@@ -123,7 +123,7 @@ export default {
         },
         //查询list数据
         queryList() {
-            let user = JSON.parse(sessionStorage.getItem('user'));
+            let user = JSON.parse(sessionStorage.getItem('user')); 
             let userId = user?user.userId:0;
             if(!user){
                 this.showLoginTips = true;
@@ -220,9 +220,10 @@ export default {
     position: absolute;
     left: 0;
     right: 0;
-    top: 12%;
+    top: 10%;
     bottom: 8%;
     overflow: auto;
+    padding: 1rem 0;
     .center-content{
         position: relative;
     }

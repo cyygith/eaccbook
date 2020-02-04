@@ -110,7 +110,8 @@ export default {
         },
         //编辑
         edit(){
-            this.$router.push('chooseCatalog');
+            //this.$router.push('chooseCatalog');
+            this.$router.push({path:'chooseCatalog',query:{id:this.id}});
         },
         //删除
         del() {

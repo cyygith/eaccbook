@@ -12,25 +12,25 @@
         <div class="choose-content">
             <div class="svg-container" v-if="!inComeShow">
                 <div @click="shownum('001')" class="svgItem" id="bag">
-                    <div class="svg-img">
+                    <div :class="changeRed == '001'?'svg-img-red':'svg-img'">
                         <svg role="img" xmlns="http://www.w3.org/2000/svg" width="48px" height="48px" viewBox="0 0 24 24" aria-labelledby="bagIconTitle" stroke="#2329D6" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#2329D6"> <title id="bagIconTitle">Bag</title> <rect width="14" height="12" x="5" y="7"/> <path d="M8 7a4 4 0 1 1 8 0"/> </svg>
                     </div>
                     <div>餐饮</div>
                 </div>
                 <div @click="shownum('002')" class="svgItem"  id="bag">
-                    <div class="svg-img">
+                    <div  :class="changeRed == '002'?'svg-img-red':'svg-img'">
                         <svg role="img" xmlns="http://www.w3.org/2000/svg" width="48px" height="48px" viewBox="0 0 24 24" aria-labelledby="bagIconTitle" stroke="#2329D6" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#2329D6"> <title id="bagIconTitle">Bag</title> <rect width="14" height="12" x="5" y="7"/> <path d="M8 7a4 4 0 1 1 8 0"/> </svg>
                     </div>
                     <div>购物</div>
                 </div>
-                <div @click="shownum('003')" class="svgItem"  id="bag">
-                    <div class="svg-img">
+                <div @click="shownum('003')"  class="svgItem"  id="bag">
+                    <div  :class="changeRed == '003'?'svg-img-red':'svg-img'">
                         <svg role="img" xmlns="http://www.w3.org/2000/svg" width="48px" height="48px" viewBox="0 0 24 24" aria-labelledby="bagIconTitle" stroke="#2329D6" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#2329D6"> <title id="bagIconTitle">Bag</title> <rect width="14" height="12" x="5" y="7"/> <path d="M8 7a4 4 0 1 1 8 0"/> </svg>
                     </div>
                     <div>日用</div>
                 </div>
                 <div @click="shownum('004')" class="svgItem"  id="bag">
-                    <div class="svg-img">
+                    <div  :class="changeRed == '004'?'svg-img-red':'svg-img'">
                         <svg role="img" xmlns="http://www.w3.org/2000/svg" width="48px" height="48px" viewBox="0 0 24 24" aria-labelledby="bagIconTitle" stroke="#2329D6" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#2329D6"> <title id="bagIconTitle">Bag</title> <rect width="14" height="12" x="5" y="7"/> <path d="M8 7a4 4 0 1 1 8 0"/> </svg>
                     </div>
                     <div>交通</div>
@@ -70,6 +70,7 @@
 
 <script>
 import vNum from '../addbook/num';
+import {accountApi} from "@/service/account-api";
 export default {
     name:'chooseCatalog',
     data() {
@@ -80,14 +81,16 @@ export default {
             },
             collapse:false,
             numShow:false,
-            inComeShow:false
+            inComeShow:false,
+            changeRed:-1,    //改变背景,
+            id:''   //界面传递过来的id
         }
     },
     components:{
         vNum
     },
     mounted(){
-        
+        this.getDetail();//获取详细信息
     },
     created(){
 
@@ -105,6 +108,7 @@ export default {
         shownum(category){
             this.checkRow.category = category;
             this.numShow = true;
+            this.changeRed = category;//选中的框框
         },
         //返回首页
         back(){
@@ -117,6 +121,35 @@ export default {
                 this.checkRow.type="0";
             }else{
                 this.checkRow.type="1";
+            }
+        },
+        //获取详细信息
+        getDetail(){
+            if(this.$route.query.id){
+                let idd = this.$route.query.id;
+                let param = new URLSearchParams();
+                param.append("id",idd);
+                let loading = this.$loading({lock:true,text:'保存中....',background:'rgba(0,0,0,0.5)'});
+                accountApi.detail(param).then((res)=>{
+                    if(res.code == "0"){
+                        if(res.data){
+                            console.log("值");
+                            console.dir(res.data);
+                            //this.changeRed = res.data.category;
+                            this.shownum(res.data.category);//选中的框框
+                            this.form = res.data;
+                            if(res.data.type=='0'){
+                                this.form.typeName = '收入';
+                                this.inComeShow = true;
+                            }else{
+                                this.form.typeName = '支出';
+                            }
+                        }
+                    }else{
+                        this.$alert('获取信息失败，联系管理员','提示信息');
+                    }
+                    loading.close();
+                });
             }
         }
 
@@ -174,10 +207,11 @@ export default {
             background-color: rgb(248, 248, 245);
             border-radius: 2rem;
         }
-        .svg-img:hover{
+        .svg-img-red{
+            border-radius: 2rem;
             background-color: rgb(117, 194, 238);
         }
-        
     }
 }
+
 </style>
